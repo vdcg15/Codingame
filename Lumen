@@ -1,0 +1,64 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int N = in.nextInt(); 
+        int L = in.nextInt(); 
+        
+        if (in.hasNextLine()) {
+            in.nextLine();
+        }
+        
+        int[][] tab = new int[N][N];
+       
+        for (int i = 0; i < N; i++) 
+        {
+            StringTokenizer st = new StringTokenizer(in.nextLine());
+            Vector<String> temp = new Vector<>();
+            
+            for (int j = 0; st.hasMoreTokens(); j++)
+            {
+                temp.add(st.nextToken());
+                
+                if (temp.get(j).equals("C"))
+                {
+                    //tab[i][j] = 1;
+                    
+                    for (int m = i - L + 1; m <= i + L - 1; m++)
+                        for (int n = j - L + 1; n <= j + L - 1; n++)
+                        {
+                            if ((m < 0) || (m >= N))
+                                continue;
+                            
+                            if ((n < 0) || (n >= N))
+                                continue; 
+                            
+                            tab[m][n] = 1; 
+                        }
+                }
+            }
+        }
+        
+        int count = 0;
+        
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+            {
+                if (tab[i][j] == 0)
+                    count++;
+            }
+
+        // Write an action using System.out.println()
+        // To debug: System.err.println("Debug messages...");
+
+        System.out.println(count);
+    }
+}
