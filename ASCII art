@@ -1,0 +1,83 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Solution {
+    
+    public static Vector<Vector<String>> createAlfabet(int L, int H, Vector<String> ROW)
+    {
+        Vector<Vector<String>> alfabet = new Vector<>();
+       
+        for (int j = 0; j < 27; j++)
+        {
+            Vector<String> sub = new Vector<>();
+            for (int i = 0; i < H; i++)
+            {
+                sub.add(new String(ROW.get(i).substring(j * L, j * L + L)));
+            }
+            
+            alfabet.add(sub);
+        }
+        
+        return alfabet;
+    }
+    
+    public static int checkASCII(char any)
+    {
+        if ((any >= 65) && (any <= 90))
+            return (int) any - 65;
+        else if ((any >= 97) && (any <= 122))
+            return (int) any - 97;
+        else
+            return 26;
+    }
+    
+    public static Vector<Integer> analize(String T)
+    {
+        Vector<Integer> analized = new Vector<>();
+        
+        int length = T.length();
+        for (int i = 0; i < length; i++)
+        {
+            analized.add(checkASCII(T.charAt(i)));
+        }
+        
+        return analized;
+    }
+    
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int L = in.nextInt();
+        int H = in.nextInt(); 
+        if (in.hasNextLine()) {
+            in.nextLine();
+        }
+        
+        String T = in.nextLine();
+        
+        Vector<String> ROW = new Vector<>();
+        for (int i = 0; i < H; i++) {
+            ROW.add(in.nextLine() + " "); 
+        }
+        
+        Vector<Vector<String>> alfabet = createAlfabet(L, H, ROW);
+        
+        Vector<Integer> analized = analize(T); 
+       
+        int size = analized.size();
+        
+        for (int i = 0; i < H; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                System.out.print(alfabet.get(analized.get(j)).get(i));
+            }
+            
+            System.out.print("\n");
+        }
+    }
+}
