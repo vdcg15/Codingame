@@ -1,0 +1,167 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+class Player {
+
+    private static String[] one = {"U", "D", "R", "L"};
+    private static String[] two = {"UR", "UL", "DR", "DL"};
+
+    public static int[] findX(String bombDir, int X, int W)
+    {
+        int[] x = new int[3];
+        
+        if (bombDir.equals(one[2])
+            || bombDir.equals(two[0])
+            || bombDir.equals(two[2]))
+        {
+            x[0] = X + 1;
+            x[1] = W - 1;
+        }
+        else if (bombDir.equals(one[3])
+            || bombDir.equals(two[1])
+            || bombDir.equals(two[3]))
+        {
+            x[0] = 0;
+            x[1] = X - 1;
+        }
+        else
+        {
+            x[0] = X;
+            x[1] = X;
+        }
+        
+        x[2] = x[0] + (x[1] - x[0]) / 2;
+        
+        return x;
+    }
+    
+    public static int[] findY(String bombDir, int Y, int H)
+    {
+        int[] y = new int[3];
+        
+        if (bombDir.equals(one[0])
+            || bombDir.equals(two[0])
+            || bombDir.equals(two[1]))
+        {
+            y[0] = 0;
+            y[1] = Y - 1;
+        }
+        else if (bombDir.equals(one[1])
+            || bombDir.equals(two[2])
+            || bombDir.equals(two[3]))
+        {
+            y[0] = Y + 1;
+            y[1] = H - 1;
+        }
+        else
+        {
+            y[0] = Y;
+            y[1] = Y;
+        }
+        
+        y[2] = y[0] + (y[1] - y[0]) / 2;
+        
+        return y;
+    }
+    
+    public static int[] findXNext(String bombDir, int[] x)
+    {
+        int[] xNext = new int[3];
+        
+        if (bombDir.equals(one[2])
+            || bombDir.equals(two[0])
+            || bombDir.equals(two[2]))
+        {
+            xNext[0] = x[2] + 1;
+            xNext[1] = x[1];
+        }
+        else if (bombDir.equals(one[3])
+            || bombDir.equals(two[1])
+            || bombDir.equals(two[3]))
+        {
+            xNext[0] = x[0];
+            xNext[1] = x[2] - 1;
+        }
+        else
+        {
+            xNext[0] = x[2];
+            xNext[1] = x[2];
+        }
+        
+        xNext[2] = xNext[0] + (xNext[1] - xNext[0]) / 2;
+        
+        return xNext;
+    }
+    
+    public static int[] findYNext(String bombDir, int[] y)
+    {
+        int[] yNext = new int[3];
+        
+        if (bombDir.equals(one[0])
+            || bombDir.equals(two[0])
+            || bombDir.equals(two[1]))
+        {
+            yNext[0] = y[0];
+            yNext[1] = y[2] - 1;
+        }
+        else if (bombDir.equals(one[1])
+            || bombDir.equals(two[2])
+            || bombDir.equals(two[3]))
+        {
+            yNext[0] = y[2] + 1;
+            yNext[1] = y[1];
+        }
+        else
+        {
+            yNext[0] = y[2];
+            yNext[1] = y[2];
+        }
+        
+        yNext[2] = yNext[0] + (yNext[1] - yNext[0]) / 2;
+        
+        return yNext;
+    }
+
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int W = in.nextInt(); // width of the building.
+        int H = in.nextInt(); // height of the building.
+        int N = in.nextInt(); // maximum number of turns before game over.
+        int X0 = in.nextInt();
+        int Y0 = in.nextInt();
+
+        int count = 0;
+        int[] x = new int[3];
+        int[] y = new int[3];
+        
+        // game loop
+        while (true) {
+            String bombDir = in.next(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
+            count++;
+            
+            if (count == 1)
+            {
+                x = findX(bombDir, X0, W);
+                y = findY(bombDir, Y0, H);
+    
+                System.out.println(x[2] + " " + y[2]);
+                
+                continue;
+            }
+            
+            x = findXNext(bombDir, x);
+            y = findYNext(bombDir, y);
+            
+            // Write an action using System.out.println()
+            // To debug: System.err.println("Debug messages...");
+
+            // the location of the next window Batman should jump to.
+            System.out.println(x[2] + " " + y[2]);
+        }
+    }
+}
