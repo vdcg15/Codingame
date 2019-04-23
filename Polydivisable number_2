@@ -1,0 +1,86 @@
+import java.util.*;
+import java.io.*;
+import java.math.*;
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+ 
+class Solution {
+
+    public static BigInteger convert(Vector<Integer> num, int base)
+    {
+        int size = num.size();
+        BigInteger newBase = BigInteger.valueOf(base);
+        BigInteger newNum = BigInteger.ZERO;
+      
+        for (int j = 0; j < size; j++)
+        {
+            newNum = newNum.add(newBase.pow(j).multiply(BigInteger.valueOf(num.get(j))));
+        }
+        
+        return newNum;
+    }
+    
+    public static boolean checkPD(BigInteger num)
+    {
+        BigInteger temp = BigInteger.ZERO;
+        String numStr = num.toString();
+        
+        int length = numStr.length();
+        
+        for (int i = 1; i < length; i++)
+        {
+            temp = new BigInteger(numStr.substring(0, i + 1));
+            System.err.println(num + " " + i);
+            
+            if (!temp.mod(BigInteger.valueOf(i + 1)).equals(BigInteger.ZERO))
+                return false;
+        }
+        
+        return true;
+    }
+    
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        
+        String NUMBER = in.nextLine();
+        Vector<Integer> num = new Vector<>();
+        
+        StringTokenizer st = new StringTokenizer(NUMBER);
+        int max = 0;
+        
+        for (int i = 0; st.hasMoreTokens(); i++)
+        {
+            int temp = Integer.parseInt(st.nextToken());
+            num.add(temp);
+            
+            if (temp > max)
+                max = temp;
+        }
+        
+        Collections.reverse(num);
+        
+        for (int i = max + 1; i < 37; i++) 
+        {
+            BigInteger newNum = convert(num, i); //System.err.println(newNum);
+            
+            if (checkPD(newNum))
+            {
+                System.out.println(i);
+                System.err.println();
+            }
+            else
+            {
+                System.err.println("not " + i);
+                System.err.println();
+            }
+            
+            // Write an action using System.out.println()
+            // To debug: System.err.println("Debug messages...");
+
+            //System.out.println("value");
+        }
+    }
+}
